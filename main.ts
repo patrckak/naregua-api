@@ -12,7 +12,7 @@ require("dotenv").config();
 
 //? settings
 const port = 3030;
-const secret = process.env.SECRET;
+const secret = "aaa";
 const corsOptions = {
   origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
