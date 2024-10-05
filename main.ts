@@ -12,7 +12,7 @@ require("dotenv").config();
 
 //? settings
 const port = 3030;
-const secret = process.env.SECRET;
+const secret = "aaa";
 const corsOptions = {
   origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -36,6 +36,10 @@ function defineLangResponse(lang: string) {
   if (lang == "en") {
     return Lang.en;
   }
+}
+
+app.get("/", async (req: any, res: any) => {
+return res.json({servidor: "Servidor Online. 05/10/2024, 192.168.0.103."})
 }
 
 app.post("/api/auth/login", async (req: any, res: any) => {
