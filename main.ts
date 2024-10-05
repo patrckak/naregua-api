@@ -41,23 +41,26 @@ function defineLangResponse(lang: string) {
 app.post("/api/auth/login", async (req: any, res: any) => {
   const { user, pass, lang } = req.body;
   let userLanguage = defineLangResponse(lang);
-
-  const response = await prisma.user.findFirst({
-    where: { name: user },
-  });
-  if (!response) {
-    return res.json({ response: userLanguage?.userNotFound });
-  } else {
-    let t = jwt.sign({ id: response.userId }, secret);
-
-    res
-      .status(200)
-      .cookie("access_token", "Bearer " + t, { maxAge: 86400 }) // 24hs de sessão
-      .json({
-        status: 1, // 0 offline 1 online
-        name: response.name,
-        storeId: response.storeIdOwner,
-      });
+  try {
+    const response = await prisma.user.findFirst({
+      where: { name: user },
+    });
+    if (!response) {
+      return res.json({ response: userLanguage?.userNotFound });
+    } else {
+      let t = jwt.sign({ id: response.userId }, secret);
+      res
+        .status(200)
+        .cookie("access_token", "Bearer " + t, { maxAge: 86400 }) // 24hs de sessão
+        .json({
+          status: 1, // 0 offline 1 online
+          name: response.name,
+          storeId: response.storeIdOwner,
+        });
+    }
+  } catch (error) {
+    console.log("ERRO \n: " + error);
+    res.status(500).json({ server: userLanguage?.apiError });
   }
 });
 
