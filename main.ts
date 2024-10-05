@@ -38,6 +38,10 @@ function defineLangResponse(lang: string) {
   }
 }
 
+app.get("/", async (req: any, res: any) => {
+return res.json({servidor: "Servidor Online. 05/10/2024, 192.168.0.103."})
+}
+
 app.post("/api/auth/login", async (req: any, res: any) => {
   const { user, pass, lang } = req.body;
   let userLanguage = defineLangResponse(lang);
